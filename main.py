@@ -13,7 +13,22 @@ import sys
 LETTER = "A"
 
 
+def check_letter() -> str:
+    """Return the entry letter after validating it against the gate."""
+    if len(LETTER) != 1 or LETTER not in ("A", "B"):
+        raise ValueError(f"entry must be exactly one letter, A or B, got {LETTER!r}")
+    return LETTER
+
+
 def main() -> int:
+    if "--check" in sys.argv[1:]:
+        try:
+            letter = check_letter()
+        except ValueError as e:
+            print(str(e), file=sys.stderr)
+            return 1
+        print(f"1 character: {letter} ({'coffee' if letter == 'A' else 'tea'})")
+        return 0
     data = LETTER.encode("utf-8")
     if len(LETTER) != 1 or LETTER not in ("A", "B"):
         print(f"entry must be exactly one letter, A or B, got {LETTER!r}", file=sys.stderr)
